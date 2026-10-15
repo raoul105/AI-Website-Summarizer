@@ -1,10 +1,11 @@
 import os
 
-from openai import OpenAI
 from dotenv import load_dotenv
+from openai import OpenAI
 from scraper import fetch_website_contents
 
 load_dotenv()          # <-- this reads your .env file
+
 client = OpenAI(
     api_key=os.getenv("GROQ_API_KEY"),
     base_url="https://api.groq.com/openai/v1",
@@ -17,7 +18,7 @@ Respond in markdown."""
 def summarize(url):
     website = fetch_website_contents(url)
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[
             {"role":"system", "content": system_prompt},
             {"role":"user",   "content": f"Summarize this website:\n\n{website}"},
